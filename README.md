@@ -67,6 +67,7 @@ export default App
 | saveImage       | function | required       | Function called after cropping with the image data                   |
 | defaultRatio    | string   | "1:1"          | Default aspect ratio for the image crop (e.g., "1:1", "16:9", "4:3") |
 | hideRatioSelect | boolean  | false          | When true, hides the aspect ratio selector interface                 |
+| loading         | boolean  | false          | Controls the loading state of the save button                        |
 
 ### Uploading the cropped image
 
