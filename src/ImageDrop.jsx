@@ -91,24 +91,41 @@ export default function ImageDrop(props) {
               class="block w-full max-h-96 object-contain"
             />
           </div>
-          <button
-            type="button"
-            class="inline-flex items-center gap-x-1.5 rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 mt-2"
-            onClick={() => {
-              setState(
-                'croppedImage',
-                cropper().getCroppedCanvas().toDataURL(state.file.type)
-              )
-              props.saveImage(state)
-            }}
-          >
-            <Icon
-              path={cloudArrowUp}
-              class="-ml-0.5 h-5 w-5"
-              aria-hidden="true"
-            />
-            Save
-          </button>
+          <div class="flex gap-2 mt-2">
+            <button
+              type="button"
+              class="inline-flex items-center gap-x-1.5 rounded-md bg-indigo-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              onClick={() => {
+                setState(
+                  'croppedImage',
+                  cropper().getCroppedCanvas().toDataURL(state.file.type)
+                )
+                props.saveImage(state)
+              }}
+            >
+              <Icon
+                path={cloudArrowUp}
+                class="-ml-0.5 h-5 w-5"
+                aria-hidden="true"
+              />
+              Save
+            </button>
+            <button
+              type="button"
+              class="inline-flex items-center gap-x-1.5 rounded-md bg-gray-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600"
+              onClick={() => {
+                if (cropper()) {
+                  cropper().destroy()
+                }
+                setCropper(null)
+                setPreview(null)
+                setState('croppedImage', null)
+                setState('file', {})
+              }}
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       </Show>
       <Show when={preview() === null}>
@@ -117,7 +134,7 @@ export default function ImageDrop(props) {
             id="dropzone"
             class={`cursor-pointer ${dropZoneActive() ? 'bg-green-100' : ''} ${
               uploading() && 'opacity-50'
-            } place-content-center place-items-center min-h-[16rem] w-full border-2 border-gray-300 border-dashed rounded-md sm:flex p-2 m-2`}
+            } place-content-center place-items-center min-h-[16rem] w-full border-2 border-gray-300 border-dashed rounded-md sm:flex p-2 my-2`}
             onDragEnter={() =>
               uploading() ? undefined : setDropZoneActive(true)
             }
