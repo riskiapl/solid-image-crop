@@ -82,13 +82,13 @@ export default function ImageDrop(props) {
   return (
     <>
       <Show when={preview() !== null}>
-        <div>
-          <div>
+        <div class="w-full max-w-md mx-auto">
+          <div class="w-full">
             <img
               ref={cropImage}
               src={preview()}
               alt="cropper"
-              class="block max-w-full h-96 w-96"
+              class="block w-full max-h-96 object-contain"
             />
           </div>
           <button
@@ -112,12 +112,12 @@ export default function ImageDrop(props) {
         </div>
       </Show>
       <Show when={preview() === null}>
-        <form class="min-h-96 min-w-96">
+        <form class="w-full max-w-md mx-auto">
           <div
             id="dropzone"
             class={`cursor-pointer ${dropZoneActive() ? 'bg-green-100' : ''} ${
               uploading() && 'opacity-50'
-            } place-content-center place-items-center h-96 w-96 border-2 border-gray-300 border-dashed rounded-md sm:flex p-2 m-2`}
+            } place-content-center place-items-center min-h-[16rem] w-full border-2 border-gray-300 border-dashed rounded-md sm:flex p-2 m-2`}
             onDragEnter={() =>
               uploading() ? undefined : setDropZoneActive(true)
             }
@@ -129,7 +129,10 @@ export default function ImageDrop(props) {
             onClick={triggerFileInput}
           >
             <div class="">
-              <Icon path={photo} class="h-48 w-48 text-gray-300" />
+              <Icon
+                path={photo}
+                class="h-32 w-32 sm:h-48 sm:w-48 text-gray-300 mx-auto"
+              />
             </div>
             <input
               id="image-upload"
