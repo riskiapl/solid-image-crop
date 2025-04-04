@@ -46,6 +46,8 @@ function App() {
         closeModal={closeModal}
         openModal={openModal}
         saveImage={saveImage}
+        defaultRatio="1:1"
+        hideRatioSelect={false}
       />
     </>
   )
@@ -53,6 +55,18 @@ function App() {
 
 export default App
 ```
+
+### Props
+
+| Name            | Type     | Default        | Description                                                          |
+| --------------- | -------- | -------------- | -------------------------------------------------------------------- |
+| title           | string   | "Upload Image" | The title of the upload dialog                                       |
+| isOpen          | boolean  | false          | Controls the visibility of the dialog                                |
+| closeModal      | function | required       | Function to close the dialog                                         |
+| openModal       | function | required       | Function to open the dialog                                          |
+| saveImage       | function | required       | Function called after cropping with the image data                   |
+| defaultRatio    | string   | "1:1"          | Default aspect ratio for the image crop (e.g., "1:1", "16:9", "4:3") |
+| hideRatioSelect | boolean  | false          | When true, hides the aspect ratio selector interface                 |
 
 ### Uploading the cropped image
 

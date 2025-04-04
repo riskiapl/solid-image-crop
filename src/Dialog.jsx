@@ -7,11 +7,30 @@ import {
   DialogOverlay
 } from 'solid-headless'
 import ImageDrop from './ImageDrop.jsx'
-import { createSignal } from 'solid-js'
+import { createSignal, onMount } from 'solid-js'
 
 export default function ImageUploadDialog(props) {
-  const [width, setWidth] = createSignal(16)
-  const [height, setHeight] = createSignal(9)
+  // Default to provided ratio or 16:9 if not specified
+  const parseRatio = (ratioStr) => {
+    const [w, h] = ratioStr.split(':').map((num) => parseInt(num))
+    return { width: w, height: h }
+  }
+
+  const defaultValues = props.defaultRatio
+    ? parseRatio(props.defaultRatio)
+    : { width: 16, height: 9 }
+
+  const [width, setWidth] = createSignal(defaultValues.width)
+  const [height, setHeight] = createSignal(defaultValues.height)
+
+  // Set initial ratio from props if provided
+  onMount(() => {
+    if (props.defaultRatio) {
+      const { width: w, height: h } = parseRatio(props.defaultRatio)
+      setWidth(w)
+      setHeight(h)
+    }
+  })
 
   return (
     <Transition appear show={props.isOpen()}>
@@ -55,18 +74,21 @@ export default function ImageUploadDialog(props) {
                 aspectRatioWidth={width()}
                 aspectRatioHeight={height()}
               />
-              <select
-                class="mt-4"
-                onChange={(e) => {
-                  const [w, h] = e.currentTarget.value.split(':')
-                  setWidth(parseInt(w))
-                  setHeight(parseInt(h))
-                }}
-              >
-                <option value="16:9">16:9</option>
-                <option value="4:3">4:3</option>
-                <option value="1:1">1:1</option>
-              </select>
+              {!props.hideRatioSelect && (
+                <select
+                  class="mt-4"
+                  onChange={(e) => {
+                    const [w, h] = e.currentTarget.value.split(':')
+                    setWidth(parseInt(w))
+                    setHeight(parseInt(h))
+                  }}
+                  value={`${width()}:${height()}`}
+                >
+                  <option value="16:9">16:9</option>
+                  <option value="4:3">4:3</option>
+                  <option value="1:1">1:1</option>
+                </select>
+              )}
             </DialogPanel>
           </TransitionChild>
         </div>

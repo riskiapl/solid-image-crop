@@ -8,6 +8,7 @@ import { cloudArrowUp, photo } from 'solid-heroicons/solid'
 
 export default function ImageDrop(props) {
   let cropImage
+  let fileInputRef
   const [state, setState] = createStore({
       error: null,
       loading: false,
@@ -65,6 +66,11 @@ export default function ImageDrop(props) {
     handleFileInput = async (e) => {
       e.preventDefault()
       uploadFile(e.currentTarget.files[0])
+    },
+    triggerFileInput = () => {
+      if (!uploading()) {
+        fileInputRef.click()
+      }
     }
 
   createEffect(() => {
@@ -109,7 +115,7 @@ export default function ImageDrop(props) {
         <form class="min-h-96 min-w-96">
           <div
             id="dropzone"
-            class={`${dropZoneActive() ? 'bg-green-100' : ''} ${
+            class={`cursor-pointer ${dropZoneActive() ? 'bg-green-100' : ''} ${
               uploading() && 'opacity-50'
             } place-content-center place-items-center h-96 w-96 border-2 border-gray-300 border-dashed rounded-md sm:flex p-2 m-2`}
             onDragEnter={() =>
@@ -120,6 +126,7 @@ export default function ImageDrop(props) {
             onDrop={(event) =>
               uploading() ? noPropagate(event) : handleFileDrop(event)
             }
+            onClick={triggerFileInput}
           >
             <div class="">
               <Icon path={photo} class="h-48 w-48 text-gray-300" />
@@ -132,6 +139,7 @@ export default function ImageDrop(props) {
               multiple={false}
               onInput={handleFileInput}
               class="sr-only"
+              ref={fileInputRef}
             />
           </div>
           <div class="h-8" />
