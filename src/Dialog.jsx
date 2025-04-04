@@ -73,6 +73,7 @@ export default function ImageUploadDialog(props) {
                 saveImage={props.saveImage}
                 aspectRatioWidth={width()}
                 aspectRatioHeight={height()}
+                closeModal={props.closeModal}
               />
               {!props.hideRatioSelect && (
                 <select

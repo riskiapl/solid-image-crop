@@ -83,7 +83,7 @@ export default function ImageDrop(props) {
     <>
       <Show when={preview() !== null}>
         <div class="w-full max-w-md mx-auto">
-          <div class="w-full">
+          <div class="w-full my-2">
             <img
               ref={cropImage}
               src={preview()}
@@ -121,6 +121,7 @@ export default function ImageDrop(props) {
                 setPreview(null)
                 setState('croppedImage', null)
                 setState('file', {})
+                props.closeModal()
               }}
             >
               Cancel
